@@ -32,7 +32,7 @@ defmodule JehutyWeb.ConnCase do
   end
 
   setup tags do
-    JehutyWeb.DataCase.setup_sandbox(tags)
+    Jehuty.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

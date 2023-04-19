@@ -52,23 +52,23 @@ defmodule JehutyWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("jehuty_web.repo.query.total_time",
+      summary("jehuty.repo.query.total_time",
         unit: {:native, :millisecond},
         description: "The sum of the other measurements"
       ),
-      summary("jehuty_web.repo.query.decode_time",
+      summary("jehuty.repo.query.decode_time",
         unit: {:native, :millisecond},
         description: "The time spent decoding the data received from the database"
       ),
-      summary("jehuty_web.repo.query.query_time",
+      summary("jehuty.repo.query.query_time",
         unit: {:native, :millisecond},
         description: "The time spent executing the query"
       ),
-      summary("jehuty_web.repo.query.queue_time",
+      summary("jehuty.repo.query.queue_time",
         unit: {:native, :millisecond},
         description: "The time spent waiting for a database connection"
       ),
-      summary("jehuty_web.repo.query.idle_time",
+      summary("jehuty.repo.query.idle_time",
         unit: {:native, :millisecond},
         description:
           "The time the connection spent waiting before being checked out for the query"
