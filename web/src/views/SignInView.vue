@@ -9,14 +9,14 @@
 import { useToast } from 'primevue/usetoast'
 import router from '@/router'
 // import { useSigninUserMutation } from '@/auto_generated/graphql'
-// import firebase from '@/services/firebase'
+import firebase from '@/services/firebase'
 
 const toast = useToast()
 
 // const { executeMutation: signinUser } = useSigninUserMutation()
 
 const signIn = async () => {
-  // await firebase.signinWithGoogle()
+  await firebase.signinWithGoogle()
   // const result = await signinUser({})
   // if (result.error) {
   //   toast.add({
