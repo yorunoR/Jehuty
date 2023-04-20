@@ -1,5 +1,5 @@
 defmodule Jehuty.Admin.AdminUserToken do
-  use Ecto.Schema
+  use Jehuty.Schema
   import Ecto.Query
   alias Jehuty.Admin.AdminUserToken
 

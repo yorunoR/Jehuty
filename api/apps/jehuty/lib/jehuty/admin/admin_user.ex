@@ -1,5 +1,5 @@
 defmodule Jehuty.Admin.AdminUser do
-  use Ecto.Schema
+  use Jehuty.Schema
   import Ecto.Changeset
 
   schema "admin_user" do
