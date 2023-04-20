@@ -89,7 +89,11 @@ defmodule JehutyWeb.AdminUserSettingsLiveTest do
       %{conn: log_in_admin_user(conn, admin_user), admin_user: admin_user, password: password}
     end
 
-    test "updates the admin_user password", %{conn: conn, admin_user: admin_user, password: password} do
+    test "updates the admin_user password", %{
+      conn: conn,
+      admin_user: admin_user,
+      password: password
+    } do
       new_password = valid_admin_user_password()
 
       {:ok, lv, _html} = live(conn, ~p"/admin_user/settings")
@@ -110,7 +114,8 @@ defmodule JehutyWeb.AdminUserSettingsLiveTest do
 
       assert redirected_to(new_password_conn) == ~p"/admin_user/settings"
 
-      assert get_session(new_password_conn, :admin_user_token) != get_session(conn, :admin_user_token)
+      assert get_session(new_password_conn, :admin_user_token) !=
+               get_session(conn, :admin_user_token)
 
       assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
                "Password updated successfully"
@@ -165,13 +170,27 @@ defmodule JehutyWeb.AdminUserSettingsLiveTest do
 
       token =
         extract_admin_user_token(fn url ->
-          Admin.deliver_admin_user_update_email_instructions(%{admin_user | email: email}, admin_user.email, url)
+          Admin.deliver_admin_user_update_email_instructions(
+            %{admin_user | email: email},
+            admin_user.email,
+            url
+          )
         end)
 
-      %{conn: log_in_admin_user(conn, admin_user), token: token, email: email, admin_user: admin_user}
+      %{
+        conn: log_in_admin_user(conn, admin_user),
+        token: token,
+        email: email,
+        admin_user: admin_user
+      }
     end
 
-    test "updates the admin_user email once", %{conn: conn, admin_user: admin_user, token: token, email: email} do
+    test "updates the admin_user email once", %{
+      conn: conn,
+      admin_user: admin_user,
+      token: token,
+      email: email
+    } do
       {:error, redirect} = live(conn, ~p"/admin_user/settings/confirm_email/#{token}")
 
       assert {:live_redirect, %{to: path, flash: flash}} = redirect

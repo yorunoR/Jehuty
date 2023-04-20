@@ -32,7 +32,10 @@ defmodule JehutyWeb.AdminUserConfirmationInstructionsLiveTest do
       assert Repo.get_by!(Admin.AdminUserToken, admin_user_id: admin_user.id).context == "confirm"
     end
 
-    test "does not send confirmation token if admin_user is confirmed", %{conn: conn, admin_user: admin_user} do
+    test "does not send confirmation token if admin_user is confirmed", %{
+      conn: conn,
+      admin_user: admin_user
+    } do
       Repo.update!(Admin.AdminUser.confirm_changeset(admin_user))
 
       {:ok, lv, _html} = live(conn, ~p"/admin_user/confirm")

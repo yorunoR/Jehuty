@@ -11,7 +11,10 @@ defmodule JehutyWeb.AdminUserSessionControllerTest do
     test "logs the admin_user in", %{conn: conn, admin_user: admin_user} do
       conn =
         post(conn, ~p"/admin_user/log_in", %{
-          "admin_user" => %{"email" => admin_user.email, "password" => valid_admin_user_password()}
+          "admin_user" => %{
+            "email" => admin_user.email,
+            "password" => valid_admin_user_password()
+          }
         })
 
       assert get_session(conn, :admin_user_token)

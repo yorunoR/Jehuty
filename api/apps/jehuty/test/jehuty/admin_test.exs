@@ -31,7 +31,10 @@ defmodule Jehuty.AdminTest do
       %{id: id} = admin_user = admin_user_fixture()
 
       assert %AdminUser{id: ^id} =
-               Admin.get_admin_user_by_email_and_password(admin_user.email, valid_admin_user_password())
+               Admin.get_admin_user_by_email_and_password(
+                 admin_user.email,
+                 valid_admin_user_password()
+               )
     end
   end
 
@@ -59,7 +62,8 @@ defmodule Jehuty.AdminTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Admin.register_admin_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} =
+        Admin.register_admin_user(%{email: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -130,13 +134,17 @@ defmodule Jehuty.AdminTest do
     end
 
     test "requires email to change", %{admin_user: admin_user} do
-      {:error, changeset} = Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{})
+      {:error, changeset} =
+        Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{})
+
       assert %{email: ["did not change"]} = errors_on(changeset)
     end
 
     test "validates email", %{admin_user: admin_user} do
       {:error, changeset} =
-        Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{email: "not valid"})
+        Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{
+          email: "not valid"
+        })
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
@@ -168,7 +176,10 @@ defmodule Jehuty.AdminTest do
 
     test "applies the email without persisting it", %{admin_user: admin_user} do
       email = unique_admin_user_email()
-      {:ok, admin_user} = Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{email: email})
+
+      {:ok, admin_user} =
+        Admin.apply_admin_user_email(admin_user, valid_admin_user_password(), %{email: email})
+
       assert admin_user.email == email
       assert Admin.get_admin_user!(admin_user.id).email != email
     end
@@ -182,7 +193,11 @@ defmodule Jehuty.AdminTest do
     test "sends token through notification", %{admin_user: admin_user} do
       token =
         extract_admin_user_token(fn url ->
-          Admin.deliver_admin_user_update_email_instructions(admin_user, "current@example.com", url)
+          Admin.deliver_admin_user_update_email_instructions(
+            admin_user,
+            "current@example.com",
+            url
+          )
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -200,13 +215,21 @@ defmodule Jehuty.AdminTest do
 
       token =
         extract_admin_user_token(fn url ->
-          Admin.deliver_admin_user_update_email_instructions(%{admin_user | email: email}, admin_user.email, url)
+          Admin.deliver_admin_user_update_email_instructions(
+            %{admin_user | email: email},
+            admin_user.email,
+            url
+          )
         end)
 
       %{admin_user: admin_user, token: token, email: email}
     end
 
-    test "updates the email with a valid token", %{admin_user: admin_user, token: token, email: email} do
+    test "updates the email with a valid token", %{
+      admin_user: admin_user,
+      token: token,
+      email: email
+    } do
       assert Admin.update_admin_user_email(admin_user, token) == :ok
       changed_admin_user = Repo.get!(AdminUser, admin_user.id)
       assert changed_admin_user.email != admin_user.email
@@ -222,8 +245,13 @@ defmodule Jehuty.AdminTest do
       assert Repo.get_by(AdminUserToken, admin_user_id: admin_user.id)
     end
 
-    test "does not update email if admin_user email changed", %{admin_user: admin_user, token: token} do
-      assert Admin.update_admin_user_email(%{admin_user | email: "current@example.com"}, token) == :error
+    test "does not update email if admin_user email changed", %{
+      admin_user: admin_user,
+      token: token
+    } do
+      assert Admin.update_admin_user_email(%{admin_user | email: "current@example.com"}, token) ==
+               :error
+
       assert Repo.get!(AdminUser, admin_user.id).email == admin_user.email
       assert Repo.get_by(AdminUserToken, admin_user_id: admin_user.id)
     end
@@ -276,14 +304,18 @@ defmodule Jehuty.AdminTest do
       too_long = String.duplicate("db", 100)
 
       {:error, changeset} =
-        Admin.update_admin_user_password(admin_user, valid_admin_user_password(), %{password: too_long})
+        Admin.update_admin_user_password(admin_user, valid_admin_user_password(), %{
+          password: too_long
+        })
 
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates current password", %{admin_user: admin_user} do
       {:error, changeset} =
-        Admin.update_admin_user_password(admin_user, "invalid", %{password: valid_admin_user_password()})
+        Admin.update_admin_user_password(admin_user, "invalid", %{
+          password: valid_admin_user_password()
+        })
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
@@ -456,7 +488,10 @@ defmodule Jehuty.AdminTest do
       assert Repo.get_by(AdminUserToken, admin_user_id: admin_user.id)
     end
 
-    test "does not return the admin_user if token expired", %{admin_user: admin_user, token: token} do
+    test "does not return the admin_user if token expired", %{
+      admin_user: admin_user,
+      token: token
+    } do
       {1, nil} = Repo.update_all(AdminUserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
       refute Admin.get_admin_user_by_reset_password_token(token)
       assert Repo.get_by(AdminUserToken, admin_user_id: admin_user.id)
@@ -488,7 +523,9 @@ defmodule Jehuty.AdminTest do
     end
 
     test "updates the password", %{admin_user: admin_user} do
-      {:ok, updated_admin_user} = Admin.reset_admin_user_password(admin_user, %{password: "new valid password"})
+      {:ok, updated_admin_user} =
+        Admin.reset_admin_user_password(admin_user, %{password: "new valid password"})
+
       assert is_nil(updated_admin_user.password)
       assert Admin.get_admin_user_by_email_and_password(admin_user.email, "new valid password")
     end

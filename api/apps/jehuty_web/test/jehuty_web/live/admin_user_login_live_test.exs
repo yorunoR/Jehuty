@@ -32,7 +32,9 @@ defmodule JehutyWeb.AdminUserLoginLiveTest do
       {:ok, lv, _html} = live(conn, ~p"/admin_user/log_in")
 
       form =
-        form(lv, "#login_form", admin_user: %{email: admin_user.email, password: password, remember_me: true})
+        form(lv, "#login_form",
+          admin_user: %{email: admin_user.email, password: password, remember_me: true}
+        )
 
       conn = submit_form(form, conn)
 
