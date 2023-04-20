@@ -1,6 +1,10 @@
 defmodule JehutyWeb.Router do
   use JehutyWeb, :router
 
+  use Kaffy.Routes,
+    scope: "/admin",
+    pipe_through: [:fetch_current_admin_user, :require_authenticated_admin_user]
+
   import JehutyWeb.AdminUserAuth
 
   pipeline :browser do

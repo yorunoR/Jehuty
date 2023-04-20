@@ -50,7 +50,9 @@ defmodule JehutyWeb.MixProject do
       {:gettext, "~> 0.20"},
       {:jehuty, in_umbrella: true},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:phoenix_view, "~> 2.0.2"},
+      {:kaffy, "~> 0.9.2"}
     ]
   end
 
