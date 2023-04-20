@@ -4,9 +4,9 @@
 </template>
 
 <script setup lang="ts">
-// import { provideClient } from '@urql/vue'
+import { provideClient } from '@urql/vue'
 
-// import { makeClient } from '@/services/client'
+import { makeClient } from '@/services/client'
 
-// provideClient(makeClient())
+provideClient(makeClient())
 </script>
