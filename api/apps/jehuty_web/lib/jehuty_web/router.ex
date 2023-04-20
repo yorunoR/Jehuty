@@ -31,6 +31,16 @@ defmodule JehutyWeb.Router do
   # scope "/api", JehutyWeb do
   #   pipe_through :api
   # end
+  scope "/" do
+    pipe_through :api
+
+    forward "/api", Absinthe.Plug, schema: Graphql.Schema
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: Graphql.Schema,
+      interface: :simple,
+      socket: JehutyWeb.UserSocket
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:jehuty_web, :dev_routes) do

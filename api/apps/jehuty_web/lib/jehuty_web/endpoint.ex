@@ -1,5 +1,6 @@
 defmodule JehutyWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :jehuty_web
+  use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -10,6 +11,10 @@ defmodule JehutyWeb.Endpoint do
     signing_salt: "GMxJ8r1V",
     same_site: "Lax"
   ]
+
+  socket "/socket", JehutyWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
