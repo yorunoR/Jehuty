@@ -1,5 +1,6 @@
 defmodule JehutyWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :jehuty_web
+  use Absinthe.Phoenix.Endpoint
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -10,6 +11,10 @@ defmodule JehutyWeb.Endpoint do
     signing_salt: "GMxJ8r1V",
     same_site: "Lax"
   ]
+
+  socket "/socket", JehutyWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
@@ -22,6 +27,12 @@ defmodule JehutyWeb.Endpoint do
     from: :jehuty_web,
     gzip: false,
     only: JehutyWeb.static_paths()
+
+  plug Plug.Static,
+    at: "/kaffy",
+    from: :kaffy,
+    gzip: false,
+    only: ~w(assets)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
