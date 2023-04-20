@@ -2,7 +2,7 @@
   <div>
     <h1>This is a ping page</h1>
     <Button>PrimeVue Valid</Button>
-    <!--section>
+    <section>
       <div v-if="fetching">Loading...</div>
       <div v-else-if="error">Oh no... {{ error }}</div>
       <div v-else>
@@ -10,12 +10,15 @@
           {{ data.ping }}
         </p>
       </div>
-    </section-->
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { usePingQuery } from '@/auto_generated/graphql'
+import { useQuery } from '@urql/vue'
+import { graphql } from '@/gql'
+import Ping from '@/doc/query/Ping'
 
-// const { fetching, error, data } = usePingQuery({})
+const query = graphql(Ping)
+const { fetching, error, data } = useQuery({ query })
 </script>
