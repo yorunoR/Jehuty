@@ -22,6 +22,13 @@ defmodule JehutyWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql_api do
+    plug CORSPlug
+
+    plug :accepts, ["json"]
+    plug JehutyWeb.AbsintheAuthPlug
+  end
+
   scope "/", JehutyWeb do
     pipe_through :browser
 
@@ -33,14 +40,9 @@ defmodule JehutyWeb.Router do
   #   pipe_through :api
   # end
   scope "/" do
-    pipe_through :api
+    pipe_through :graphql_api
 
     forward "/api", Absinthe.Plug, schema: Graphql.Schema
-
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
-      schema: Graphql.Schema,
-      interface: :simple,
-      socket: JehutyWeb.UserSocket
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -57,6 +59,15 @@ defmodule JehutyWeb.Router do
 
       live_dashboard "/dashboard", metrics: JehutyWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+
+    scope "/dev" do
+      pipe_through :api
+
+      forward "/graphiql", Absinthe.Plug.GraphiQL,
+        schema: Graphql.Schema,
+        interface: :simple,
+        socket: JehutyWeb.UserSocket
     end
   end
 

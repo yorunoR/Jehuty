@@ -24,6 +24,7 @@ defmodule Graphql.Middlewares.SafeResolution do
     exception ->
       error = Exception.format(:error, exception, __STACKTRACE__)
       Logger.error(error)
+      Logger.error("^^^^^^^^^^^^")
       Resolution.put_result(resolution, @default_error)
   end
 end
