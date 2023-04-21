@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// import BoardLayout from '@/layouts/BoardLayout.vue'
+import BoardLayout from '@/layouts/BoardLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const router = createRouter({
@@ -33,30 +33,30 @@ const router = createRouter({
         }
       ]
     },
-    // {
-    //   path: '/board',
-    //   component: BoardLayout,
-    //   children: [
-    //     {
-    //       path: 'question',
-    //       name: 'question',
-    //       meta: {
-    //         title: 'question'
-    //       },
-    //       component: async () =>
-    //         await import(/* webpackChunkName: "question" */ '@/views/board/QuestionView.vue')
-    //     },
-    //     {
-    //       path: 'history',
-    //       name: 'history',
-    //       meta: {
-    //         title: 'history'
-    //       },
-    //       component: async () =>
-    //         await import(/* webpackChunkName: "history" */ '@/views/board/HistoryView.vue')
-    //     }
-    //   ]
-    // },
+    {
+      path: '/board',
+      component: BoardLayout,
+      children: [
+        {
+          path: 'question',
+          name: 'question',
+          meta: {
+            title: 'question'
+          },
+          component: async () =>
+            await import(/* webpackChunkName: "question" */ '@/views/board/QuestionView.vue')
+        },
+        {
+          path: 'history',
+          name: 'history',
+          meta: {
+            title: 'history'
+          },
+          component: async () =>
+            await import(/* webpackChunkName: "history" */ '@/views/board/HistoryView.vue')
+        }
+      ]
+    },
     {
       path: '/:catchAll(.*)',
       redirect: '/board/question'
