@@ -25,9 +25,9 @@ defmodule Graphql.Schema do
     import_fields(:account_queries)
   end
 
-  # mutation do
-  #   import_fields(:account_mutations)
-  # end
+  mutation do
+    import_fields(:account_mutations)
+  end
 
   subscription do
     import_fields(:account_subscriptions)

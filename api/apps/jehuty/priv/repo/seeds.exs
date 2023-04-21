@@ -9,9 +9,6 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-alias Schemas.Account.User
 alias Jehuty.Admin
-alias Jehuty.Repo
 
-Repo.insert!(%User{email: "sss.yoshioka@gmail.com", name: "yux", activated: true})
 Admin.register_admin_user(%{email: "sss.yoshioka@gmail.com", password: "123456123456"})
