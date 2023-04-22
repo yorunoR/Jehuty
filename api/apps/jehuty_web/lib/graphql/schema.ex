@@ -6,6 +6,7 @@ defmodule Graphql.Schema do
   alias Graphql.Sources.Db
   alias Graphql.Types.CommonType
   alias Graphql.Types.AccountType
+  alias Graphql.Types.ChatType
   alias Graphql.Types.InputObject
   alias Graphql.Types.CustomObject
   alias Graphql.Types.ResourceObject
@@ -14,10 +15,13 @@ defmodule Graphql.Schema do
 
   import_types(CommonType)
   import_types(AccountType)
+  import_types(ChatType)
 
   import_types(InputObject.InputItem)
+  import_types(InputObject.InputHistory)
   import_types(CustomObject.Item)
   import_types(CustomObject.Status)
+  import_types(CustomObject.Answer)
   import_types(ResourceObject.User)
   import_types(ResourceObject.History)
 
@@ -28,6 +32,7 @@ defmodule Graphql.Schema do
 
   mutation do
     import_fields(:account_mutations)
+    import_fields(:chat_mutations)
   end
 
   subscription do
