@@ -1,5 +1,6 @@
 defmodule Graphql.Types.ResourceObject.User do
   use Absinthe.Schema.Notation
+  import Absinthe.Resolution.Helpers
 
   object :user do
     field(:id, non_null(:id))
@@ -11,5 +12,9 @@ defmodule Graphql.Types.ResourceObject.User do
     field(:uid, :string)
     field(:inserted_at, non_null(:datetime))
     field(:updated_at, non_null(:datetime))
+
+    field(:histories, non_null(list_of(non_null(:history)))) do
+      resolve(dataloader(:db))
+    end
   end
 end
