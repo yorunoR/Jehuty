@@ -21,7 +21,7 @@
       <p class="border-solid border-1 border-400 p-3" style="white-space: pre-wrap">
         {{ answer }}
       </p>
-      <Button class="w-full mt-3" label="Save and Clear" @click="clickSaveAnswer" />
+      <Button class="w-full mt-3" label="Save and Clear" @click="clickSaveHistory" />
       <Button class="w-full mt-2" label="Clear" @click="clear" />
     </section>
     <Dialog v-model:visible="visible" modal :closable="false" :style="{ width: '60vw' }">
@@ -34,10 +34,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useMutation } from '@urql/vue'
 import { useToast } from 'primevue/usetoast'
-import { graphql } from '@/gal'
-// import SendQuestion from '@/doc/mutation/SendQuestion'
-// import SaveAnswer from '@/doc/mutation/SaveAnswer'
+import { graphql } from '@/gql'
+import SendQuestion from '@/doc/mutation/SendQuestion'
+import SaveHistory from '@/doc/mutation/SaveHistory'
 
 const toast = useToast()
 
@@ -45,44 +46,45 @@ const question = ref('')
 const answer = ref('')
 const visible = ref(false)
 
-// const { executeMutation: sendQuestion } = useMutation(graphql(SendQuestion))
-// const { executeMutation: saveAnswer } = useMutation(graphql(SaveAnswer))
+const { executeMutation: sendQuestion } = useMutation(graphql(SendQuestion))
+const { executeMutation: saveHistory } = useMutation(graphql(SaveHistory))
 
 const clickSendQuestion = async () => {
-  // visible.value = true
-  // const res = await sendQuestion({
-  //   question: question.value
-  // })
-  // if (res.error) {
-  //   toast.add({
-  //     severity: 'error',
-  //     summary: 'Send Question',
-  //     detail: res.error.message
-  //   })
-  // }
-  // visible.value = false
-  // answer.value = res?.data?.sendQuestion?.answer ?? ''
+  visible.value = true
+  const res = await sendQuestion({
+    question: question.value
+  })
+  if (res.error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Send Question',
+      detail: res.error.message
+    })
+  }
+  visible.value = false
+  answer.value = res?.data?.sendQuestion?.answer ?? ''
 }
 
-const clickSaveAnswer = async () => {
-  // const res = await saveAnswer({
-  //   question: question.value,
-  //   answer: answer.value
-  // })
-  // if (res.error) {
-  //   toast.add({
-  //     severity: 'error',
-  //     summary: 'Save Answer',
-  //     detail: res.error.message
-  //   })
-  // } else {
-  //   toast.add({
-  //     severity: 'success',
-  //     summary: 'Save Answer',
-  //     detail: 'History のページで確認できます'
-  //   })
-  //   clear()
-  // }
+const clickSaveHistory = async () => {
+  const history = {
+    question: question.value,
+    answer: answer.value
+  }
+  const res = await saveHistory({ history })
+  if (res.error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Save History',
+      detail: res.error.message
+    })
+  } else {
+    toast.add({
+      severity: 'success',
+      summary: 'Save History',
+      detail: 'Histories のページで確認できます'
+    })
+    clear()
+  }
 }
 
 const clear = () => {
