@@ -1,6 +1,8 @@
 defmodule Schemas.Account.User do
-  use Ecto.Schema
+  use Jehuty.Schema
   import Ecto.SoftDelete.Schema
+
+  alias Schemas.Chat.History
 
   schema "users" do
     field :activated, :boolean
@@ -13,5 +15,7 @@ defmodule Schemas.Account.User do
 
     timestamps()
     soft_delete_schema()
+
+    has_many :histories, History, on_delete: :delete_all
   end
 end
