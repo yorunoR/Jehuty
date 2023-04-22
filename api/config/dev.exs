@@ -77,3 +77,11 @@ config :swoosh, :api_client, false
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :eoai,
+  api_key: System.get_env("OPENAI_API_KEY"),
+  organization_key: System.get_env("OPENAI_ORGANIZATION_KEY")
+
+config :matsukasa,
+  api_key: System.get_env("PINECONE_API_KEY"),
+  environment: System.get_env("PINECONE_ENVIRONMENT")
