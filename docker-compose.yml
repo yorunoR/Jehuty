@@ -18,7 +18,7 @@ services:
       dockerfile: containers/development/Dockerfile
     command: /bin/bash -c "mix deps.get && iex -S mix phx.server"
     ports:
-      - '4000:4000'
+      - '3000:3000'
     volumes:
       - ./api:/api
     environment:

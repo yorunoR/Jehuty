@@ -3,7 +3,7 @@ defmodule Jehuty.Admin.AdminUserAdmin do
     [
       %{
         name: "Log Out",
-        url: "http://localhost:4000/admin_user/log_out",
+        url: "http://localhost:3000/admin_user/log_out",
         method: :delete,
         order: 2,
         location: :top,
