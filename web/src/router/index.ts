@@ -47,13 +47,13 @@ const router = createRouter({
             await import(/* webpackChunkName: "question" */ '@/views/board/QuestionView.vue')
         },
         {
-          path: 'history',
-          name: 'history',
+          path: 'histories',
+          name: 'histories',
           meta: {
-            title: 'history'
+            title: 'histories'
           },
           component: async () =>
-            await import(/* webpackChunkName: "history" */ '@/views/board/HistoryView.vue')
+            await import(/* webpackChunkName: "histories" */ '@/views/board/HistoriesView.vue')
         }
       ]
     },

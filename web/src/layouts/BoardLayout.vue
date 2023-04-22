@@ -9,7 +9,7 @@
             <router-link to="/board/question"> Question </router-link>
           </li>
           <li style="border: none; padding: 20px">
-            <router-link to="/board/history"> History </router-link>
+            <router-link to="/board/histories"> Histories </router-link>
           </li>
         </ul>
       </section>

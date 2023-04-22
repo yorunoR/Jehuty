@@ -7,6 +7,8 @@ WORKDIR /api
 RUN apt-get update -qq \
     && apt-get install -y --no-install-recommends \
     inotify-tools \
+    libopenblas-dev \
+    cmake \
     && mix local.hex --force \
     && mix local.rebar \
     && mix archive.install hex phx_new 1.7.2
