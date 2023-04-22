@@ -62,7 +62,7 @@ defmodule JehutyWeb.Router do
     end
 
     scope "/dev" do
-      pipe_through :api
+      pipe_through :graphql_api
 
       forward "/graphiql", Absinthe.Plug.GraphiQL,
         schema: Graphql.Schema,
