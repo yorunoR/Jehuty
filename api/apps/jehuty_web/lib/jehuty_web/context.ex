@@ -31,6 +31,7 @@ defmodule JehutyWeb.Context do
     else
       user_err ->
         user_err |> inspect |> Logger.error()
+        Logger.error("<~ #{__MODULE__}")
         %{}
     end
   end

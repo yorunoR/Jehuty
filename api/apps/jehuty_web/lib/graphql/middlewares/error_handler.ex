@@ -63,6 +63,7 @@ defmodule Graphql.Middlewares.ErrorHandler do
 
   defp handle(other) do
     Logger.error("Unhandled error term:\n#{inspect(other)}")
+    Logger.error("<~ #{__MODULE__}")
     handle(:unknown)
   end
 
