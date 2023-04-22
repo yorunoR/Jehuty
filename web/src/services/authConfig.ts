@@ -21,7 +21,7 @@ export const authConfig = async (utils: any) => {
       })
     },
     didAuthError(error: any) {
-      if (error.graphQLErrors.some((e: any) => e.message === 'login required')) {
+      if (error.graphQLErrors.some((e: any) => e.message === 'You need to be logged in')) {
         swal({ title: 'Error', text: 'Sign in to get started.' }).catch((err) => console.error(err))
       }
 
