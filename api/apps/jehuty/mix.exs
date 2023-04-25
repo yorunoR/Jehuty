@@ -46,7 +46,8 @@ defmodule Jehuty.MixProject do
       {:ecto_soft_delete, "~> 2.0"},
       {:exl_chain, git: "https://github.com/yorunoR/exl_chain.git", branch: "main"},
       {:hound, "~> 1.0"},
-      {:floki, ">= 0.30.0"}
+      {:floki, ">= 0.30.0"},
+      {:gql, "~> 0.6"}
     ]
   end
 
