@@ -13,7 +13,12 @@ config :jehuty, Jehuty.Repo, migration_timestamps: [type: :utc_datetime_usec]
 
 # Configure Mix tasks and generators
 config :jehuty,
-  ecto_repos: [Jehuty.Repo]
+  ecto_repos: [Jehuty.Repo],
+  mildeaw: [
+    url: System.get_env("MILDEAW_URL"),
+    project_key: System.get_env("MILDEAW_PROJECT_KEY"),
+    api_key: System.get_env("MILDEAW_API_KEY")
+  ]
 
 # Configures the mailer
 #
@@ -74,6 +79,14 @@ config :kaffy,
   router: JehutyWeb.Router
 
 config :hound, driver: "chrome_driver"
+
+config :eoai,
+  api_key: System.get_env("OPENAI_API_KEY"),
+  organization_key: System.get_env("OPENAI_ORGANIZATION_KEY")
+
+config :matsukasa,
+  api_key: System.get_env("PINECONE_API_KEY"),
+  environment: System.get_env("PINECONE_ENVIRONMENT")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
