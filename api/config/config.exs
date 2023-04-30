@@ -73,6 +73,25 @@ config :kaffy,
   ecto_repo: Jehuty.Repo,
   router: JehutyWeb.Router
 
+config :crawly,
+  closespider_timeout: 1,
+  closespider_itemcount: 1,
+  concurrent_requests_per_domain: 1,
+  middlewares: [
+    Crawly.Middlewares.DomainFilter,
+    Crawly.Middlewares.UniqueRequest,
+    {Crawly.Middlewares.UserAgent,
+     user_agents: [
+       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+     ]}
+  ],
+  pipelines: [
+    {Crawly.Pipelines.Validate, fields: [:url, :title]},
+    {Crawly.Pipelines.DuplicatesFilter, item_id: :title},
+    Crawly.Pipelines.JSONEncoder,
+    {Crawly.Pipelines.WriteToFile, extension: "jl", folder: "/tmp"}
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

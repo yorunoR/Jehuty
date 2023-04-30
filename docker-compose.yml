@@ -21,6 +21,7 @@ services:
     command: /bin/bash -c "mix deps.get && iex -S mix phx.server"
     ports:
       - '3000:3000'
+      - '4001:4001'
     volumes:
       - ./api:/api
     environment:
