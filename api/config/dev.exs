@@ -21,7 +21,11 @@ config :jehuty, :index_name, System.get_env("PINECONE_INDEX_NAME")
 config :jehuty_web, JehutyWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {0, 0, 0, 0}, port: 3000],
+  http: [
+    ip: {0, 0, 0, 0},
+    port: 3000,
+    protocol_options: [idle_timeout: 300_000]
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
