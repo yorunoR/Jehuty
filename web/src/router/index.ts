@@ -54,6 +54,15 @@ const router = createRouter({
           },
           component: async () =>
             await import(/* webpackChunkName: "histories" */ '@/views/board/HistoriesView.vue')
+        },
+        {
+          path: 'document',
+          name: 'document',
+          meta: {
+            title: 'document'
+          },
+          component: async () =>
+            await import(/* webpackChunkName: "document" */ '@/views/board/DocumentView.vue')
         }
       ]
     },

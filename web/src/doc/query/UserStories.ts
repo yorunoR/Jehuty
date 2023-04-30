@@ -1,13 +1,14 @@
 const QUERY = /* GraphQL */ `
-  query CurrentUser {
+  query UserStories {
     currentUser {
       id
       name
       email
-      histories {
+      stories {
         id
-        question
-        answer
+        status
+        title
+        chunkSize
         insertedAt
       }
     }

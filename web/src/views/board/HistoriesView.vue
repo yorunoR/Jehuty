@@ -31,9 +31,9 @@
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import { graphql } from '@/gql'
-import CurrentUser from '@/doc/query/CurrentUser'
+import UserHistories from '@/doc/query/UserHistories'
 
-const query = graphql(CurrentUser)
+const query = graphql(UserHistories)
 const { data, error } = useQuery({
   query,
   context: { additionalTypenames: ['History'] }
