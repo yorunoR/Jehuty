@@ -26,6 +26,11 @@ export type Answer = {
   answer?: Maybe<Scalars['String']>;
 };
 
+export type Document = {
+  __typename?: 'Document';
+  document?: Maybe<Scalars['String']>;
+};
+
 export type History = {
   __typename?: 'History';
   answer: Scalars['String'];
@@ -42,9 +47,22 @@ export type InputHistory = {
 
 export type RootMutationType = {
   __typename?: 'RootMutationType';
+  parseHtml: Document;
+  saveDocument: Status;
   saveHistory: History;
   sendQuestion: Answer;
   signinUser?: Maybe<User>;
+};
+
+
+export type RootMutationTypeParseHtmlArgs = {
+  url: Scalars['String'];
+};
+
+
+export type RootMutationTypeSaveDocumentArgs = {
+  document: Scalars['String'];
+  url: Scalars['String'];
 };
 
 
@@ -87,6 +105,21 @@ export type User = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type ParseHtmlMutationVariables = Exact<{
+  url: Scalars['String'];
+}>;
+
+
+export type ParseHtmlMutation = { __typename?: 'RootMutationType', parseHtml: { __typename?: 'Document', document?: string | null } };
+
+export type SaveDocumentMutationVariables = Exact<{
+  url: Scalars['String'];
+  document: Scalars['String'];
+}>;
+
+
+export type SaveDocumentMutation = { __typename?: 'RootMutationType', saveDocument: { __typename?: 'Status', status?: boolean | null } };
+
 export type SaveHistoryMutationVariables = Exact<{
   history: InputHistory;
 }>;
@@ -122,6 +155,8 @@ export type NewUserSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type NewUserSubscription = { __typename?: 'RootSubscriptionType', newUser: { __typename?: 'User', id: string, name: string } };
 
 
+export const ParseHtmlDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ParseHtml"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"parseHtml"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"document"}}]}}]}}]} as unknown as DocumentNode<ParseHtmlMutation, ParseHtmlMutationVariables>;
+export const SaveDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SaveDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"document"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveDocument"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}},{"kind":"Argument","name":{"kind":"Name","value":"document"},"value":{"kind":"Variable","name":{"kind":"Name","value":"document"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<SaveDocumentMutation, SaveDocumentMutationVariables>;
 export const SaveHistoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SaveHistory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"history"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InputHistory"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveHistory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"history"},"value":{"kind":"Variable","name":{"kind":"Name","value":"history"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SaveHistoryMutation, SaveHistoryMutationVariables>;
 export const SendQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"question"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"question"},"value":{"kind":"Variable","name":{"kind":"Name","value":"question"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answer"}}]}}]}}]} as unknown as DocumentNode<SendQuestionMutation, SendQuestionMutationVariables>;
 export const SigninUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SigninUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signinUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}}]}}]}}]} as unknown as DocumentNode<SigninUserMutation, SigninUserMutationVariables>;

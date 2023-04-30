@@ -13,6 +13,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation ParseHtml($url: String!) {\n    parseHtml(url: $url) {\n      document\n    }\n  }\n": types.ParseHtmlDocument,
+    "\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n": types.SaveDocumentDocument,
     "\n  mutation SaveHistory($history: InputHistory!) {\n    saveHistory(history: $history) {\n      id\n    }\n  }\n": types.SaveHistoryDocument,
     "\n  mutation SendQuestion($question: String!) {\n    sendQuestion(question: $question) {\n      answer\n    }\n  }\n": types.SendQuestionDocument,
     "\n  mutation SigninUser {\n    signinUser {\n      uid\n    }\n  }\n": types.SigninUserDocument,
@@ -35,6 +37,14 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ParseHtml($url: String!) {\n    parseHtml(url: $url) {\n      document\n    }\n  }\n"): (typeof documents)["\n  mutation ParseHtml($url: String!) {\n    parseHtml(url: $url) {\n      document\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

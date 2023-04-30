@@ -11,6 +11,9 @@
           <li style="border: none; padding: 20px">
             <router-link to="/board/histories"> Histories </router-link>
           </li>
+          <li style="border: none; padding: 20px">
+            <router-link to="/board/document"> Document </router-link>
+          </li>
         </ul>
       </section>
       <Button class="p-button-secondary" @click="signOut"> サインアウト </Button>
