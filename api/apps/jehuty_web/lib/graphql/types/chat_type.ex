@@ -13,5 +13,16 @@ defmodule Graphql.Types.ChatType do
       arg(:history, non_null(:input_history))
       resolve(&ChatResolver.call(:save_history, &1, &2, &3))
     end
+
+    field(:parse_html, non_null(:document)) do
+      arg(:url, non_null(:string))
+      resolve(&ChatResolver.call(:parse_html, &1, &2, &3))
+    end
+
+    field(:save_document, non_null(:status)) do
+      arg(:url, non_null(:string))
+      arg(:document, non_null(:string))
+      resolve(&ChatResolver.call(:save_document, &1, &2, &3))
+    end
   end
 end

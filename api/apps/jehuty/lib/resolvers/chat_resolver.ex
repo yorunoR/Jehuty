@@ -17,6 +17,12 @@ defmodule Resolvers.ChatResolver do
       :save_history ->
         Mutation.SaveHistory.run(parent, args, context)
 
+      :parse_html ->
+        Mutation.ParseHtml.run(parent, args, context)
+
+      :save_document ->
+        Mutation.SaveDocument.run(parent, args, context)
+
       _ ->
         {:error, "Not defined in Chat context"}
     end
