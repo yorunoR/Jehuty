@@ -4,6 +4,7 @@ defmodule Schemas.Account.User do
 
   alias Schemas.Chat.Chunk
   alias Schemas.Chat.History
+  alias Schemas.Chat.Story
 
   schema "users" do
     field :activated, :boolean
@@ -19,5 +20,6 @@ defmodule Schemas.Account.User do
 
     has_many :histories, History, on_delete: :delete_all
     has_many :chunks, Chunk, on_delete: :delete_all
+    has_many :stories, Story, on_delete: :delete_all
   end
 end
