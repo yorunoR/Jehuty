@@ -63,6 +63,15 @@ const router = createRouter({
           },
           component: async () =>
             await import(/* webpackChunkName: "document" */ '@/views/board/DocumentView.vue')
+        },
+        {
+          path: 'search',
+          name: 'search',
+          meta: {
+            title: 'search'
+          },
+          component: async () =>
+            await import(/* webpackChunkName: "search" */ '@/views/board/SearchView.vue')
         }
       ]
     },
