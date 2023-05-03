@@ -10,6 +10,8 @@ config :jehuty, Jehuty.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :jehuty, :index_name, System.get_env("PINECONE_INDEX_NAME")
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

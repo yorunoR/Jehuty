@@ -13,7 +13,7 @@ defmodule Actions.Chat.Mutation.SendQuestion do
     %{question: question} = args
 
     llm = OpenAI.new("text-embedding-ada-002")
-    index = Pinecone.new("stories")
+    index = Pinecone.new(Application.get_env(:jehuty, :index_name))
 
     vector = LLM.call(llm, :embeddings, question)
 
