@@ -44,7 +44,9 @@ defmodule Jehuty.MixProject do
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
       {:ecto_soft_delete, "~> 2.0"},
-      {:exl_chain, git: "https://github.com/yorunoR/exl_chain.git", branch: "main"}
+      {:exl_chain, git: "https://github.com/yorunoR/exl_chain.git", branch: "main"},
+      {:hound, "~> 1.0"},
+      {:floki, "~> 0.34"}
     ]
   end
 

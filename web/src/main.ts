@@ -14,6 +14,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'
 import Button from 'primevue/button'
 import Chip from 'primevue/chip'
 import Dialog from 'primevue/dialog'
+import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import RadioButton from 'primevue/radiobutton'
 import Sidebar from 'primevue/sidebar'
@@ -31,6 +32,7 @@ app
   .component('Button', Button)
   .component('Chip', Chip)
   .component('Dialog', Dialog)
+  .component('Dropdown', Dropdown)
   .component('InputText', InputText)
   .component('RadioButton', RadioButton)
   .component('Sidebar', Sidebar)

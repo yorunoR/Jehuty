@@ -1,4 +1,4 @@
-defmodule Actions.Chat.Mutation.SendQuestion do
+defmodule Actions.Chat.Mutation.SearchDocument do
   alias ExlChain.LLM
   alias ExlChain.LLM.OpenAI
   alias ExlChain.Index
@@ -7,10 +7,13 @@ defmodule Actions.Chat.Mutation.SendQuestion do
   alias ExlChain.Chain
   alias Jehuty.Repo
   alias Schemas.Chat.Chunk
+  alias Schemas.Chat.Story
 
   def run(_parent, args, context) do
-    %{current_user: current_user} = context
-    %{question: question} = args
+    %{current_user: user} = context
+    %{question: question, story_id: id} = args
+
+    story = Repo.get_by!(Story, id: id, user_id: user.id)
 
     llm = OpenAI.new("text-embedding-ada-002")
     index = Pinecone.new(Application.get_env(:jehuty, :index_name))
@@ -18,37 +21,45 @@ defmodule Actions.Chat.Mutation.SendQuestion do
     vector = LLM.call(llm, :embeddings, question)
 
     json = %{
-      namespace: current_user.uid,
+      namespace: to_string(story.id),
       includeValues: false,
       includeMetadata: true,
-      topK: 10,
+      topK: div(3000, story.chunk_size),
       vector: vector
     }
 
     memories =
       Index.call(index, :query, json)
       |> Enum.map(fn vector ->
+        IO.inspect(vector)
         Map.get(vector, "metadata", %{}) |> Map.get("chunk_id") |> String.to_integer()
       end)
       |> Enum.map(fn id ->
-        chunk = Repo.get(Chunk, id)
+        Repo.get(Chunk, id)
+      end)
+      |> Enum.sort(fn x, y ->
+        x.id < y.id
+      end)
+      |> Enum.map(fn chunk ->
         chunk.value |> IO.inspect()
       end)
-      |> Enum.join("\n")
+      |> Enum.join("\n\n")
 
     chat_llm = OpenAI.new()
     params = %{"memories" => memories, "question" => question}
 
     template =
       Template.new(["memories", "question"], """
-        あなたと過去に次のような会話をしました。
+        物語の一部抜粋です。
 
-        "Question:"以降の文が私、"Answer:"以降の文があなたの回答です。
+        == ここから
 
         {memories}
 
+        == ここまで
 
-        その上で次の質問に答えてください。回答の頭に"Answer:"をつける必要はありません。
+
+        以上を参考にし、次の質問に答えてください。
 
         {question}
       """)
@@ -56,7 +67,7 @@ defmodule Actions.Chat.Mutation.SendQuestion do
     result =
       Chain.new(params)
       |> Chain.connect("answer", fn params ->
-        LLM.call(chat_llm, :chat, template, params)
+        LLM.call(chat_llm, :chat, template, params) |> IO.inspect()
       end)
       |> Chain.finish()
 

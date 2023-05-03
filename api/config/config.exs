@@ -73,6 +73,8 @@ config :kaffy,
   ecto_repo: Jehuty.Repo,
   router: JehutyWeb.Router
 
+config :hound, driver: "chrome_driver"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

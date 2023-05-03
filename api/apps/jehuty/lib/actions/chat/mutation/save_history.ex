@@ -13,7 +13,7 @@ defmodule Actions.Chat.Mutation.SaveHistory do
     %{history: attrs} = args
 
     llm = OpenAI.new("text-embedding-ada-002")
-    index = Pinecone.new("stories")
+    index = Pinecone.new(Application.get_env(:jehuty, :index_name))
 
     chunk = "Question: #{replace(attrs.question)}\nAnswer: #{replace(attrs.answer)}"
     values = LLM.call(llm, :embeddings, chunk)

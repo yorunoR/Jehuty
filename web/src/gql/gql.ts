@@ -13,11 +13,15 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation ParseHtml($url: String!, $selector: String!) {\n    parseHtml(url: $url, selector: $selector) {\n      document\n    }\n  }\n": types.ParseHtmlDocument,
+    "\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n": types.SaveDocumentDocument,
     "\n  mutation SaveHistory($history: InputHistory!) {\n    saveHistory(history: $history) {\n      id\n    }\n  }\n": types.SaveHistoryDocument,
+    "\n  mutation SearchDocument($question: String!, $storyId: ID!) {\n    searchDocument(question: $question, storyId: $storyId) {\n      answer\n    }\n  }\n": types.SearchDocumentDocument,
     "\n  mutation SendQuestion($question: String!) {\n    sendQuestion(question: $question) {\n      answer\n    }\n  }\n": types.SendQuestionDocument,
     "\n  mutation SigninUser {\n    signinUser {\n      uid\n    }\n  }\n": types.SigninUserDocument,
-    "\n  query CurrentUser {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n": types.CurrentUserDocument,
     "\n  query Ping {\n    ping {\n      status\n    }\n  }\n": types.PingDocument,
+    "\n  query UserHistories {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n": types.UserHistoriesDocument,
+    "\n  query UserStories {\n    currentUser {\n      id\n      name\n      email\n      stories {\n        id\n        status\n        title\n        chunkSize\n        insertedAt\n      }\n    }\n  }\n": types.UserStoriesDocument,
     "\n  subscription NewUser {\n    newUser {\n      id\n      name\n    }\n  }\n": types.NewUserDocument,
 };
 
@@ -38,7 +42,19 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation ParseHtml($url: String!, $selector: String!) {\n    parseHtml(url: $url, selector: $selector) {\n      document\n    }\n  }\n"): (typeof documents)["\n  mutation ParseHtml($url: String!, $selector: String!) {\n    parseHtml(url: $url, selector: $selector) {\n      document\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation SaveDocument($url: String!, $document: String!) {\n    saveDocument(url: $url, document: $document) {\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation SaveHistory($history: InputHistory!) {\n    saveHistory(history: $history) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation SaveHistory($history: InputHistory!) {\n    saveHistory(history: $history) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation SearchDocument($question: String!, $storyId: ID!) {\n    searchDocument(question: $question, storyId: $storyId) {\n      answer\n    }\n  }\n"): (typeof documents)["\n  mutation SearchDocument($question: String!, $storyId: ID!) {\n    searchDocument(question: $question, storyId: $storyId) {\n      answer\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -50,11 +66,15 @@ export function graphql(source: "\n  mutation SigninUser {\n    signinUser {\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CurrentUser {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n"): (typeof documents)["\n  query CurrentUser {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query Ping {\n    ping {\n      status\n    }\n  }\n"): (typeof documents)["\n  query Ping {\n    ping {\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Ping {\n    ping {\n      status\n    }\n  }\n"): (typeof documents)["\n  query Ping {\n    ping {\n      status\n    }\n  }\n"];
+export function graphql(source: "\n  query UserHistories {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n"): (typeof documents)["\n  query UserHistories {\n    currentUser {\n      id\n      name\n      email\n      histories {\n        id\n        question\n        answer\n        insertedAt\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query UserStories {\n    currentUser {\n      id\n      name\n      email\n      stories {\n        id\n        status\n        title\n        chunkSize\n        insertedAt\n      }\n    }\n  }\n"): (typeof documents)["\n  query UserStories {\n    currentUser {\n      id\n      name\n      email\n      stories {\n        id\n        status\n        title\n        chunkSize\n        insertedAt\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

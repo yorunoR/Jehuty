@@ -16,5 +16,9 @@ defmodule Graphql.Types.ResourceObject.User do
     field(:histories, non_null(list_of(non_null(:history)))) do
       resolve(dataloader(:db))
     end
+
+    field(:stories, non_null(list_of(non_null(:story)))) do
+      resolve(dataloader(:db))
+    end
   end
 end

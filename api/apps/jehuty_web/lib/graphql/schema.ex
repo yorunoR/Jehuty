@@ -22,8 +22,10 @@ defmodule Graphql.Schema do
   import_types(CustomObject.Item)
   import_types(CustomObject.Status)
   import_types(CustomObject.Answer)
+  import_types(CustomObject.Document)
   import_types(ResourceObject.User)
   import_types(ResourceObject.History)
+  import_types(ResourceObject.Story)
 
   query do
     import_fields(:common_queries)
