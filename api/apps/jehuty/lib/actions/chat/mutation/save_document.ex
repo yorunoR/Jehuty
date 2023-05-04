@@ -64,12 +64,7 @@ defmodule Actions.Chat.Mutation.SaveDocument do
 
     story
     |> change(status: :INDEXED)
-    |> Repo.update!()
-
-    {:ok,
-     %{
-       status: true
-     }}
+    |> Repo.update()
   end
 
   def get_title(url) do
