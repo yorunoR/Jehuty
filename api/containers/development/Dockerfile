@@ -4,8 +4,8 @@ ENV LANG C.UTF-8
 
 WORKDIR /api
 
-ARG CHROME_VERSION="112.0.5615.165-1"
-ARG CHROMEDRIVER_VERSION="112.0.5615.49"
+ARG CHROME_VERSION="113.0.5672.63-1"
+ARG CHROMEDRIVER_VERSION="113.0.5672.63"
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
