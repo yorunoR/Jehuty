@@ -1,0 +1,20 @@
+version: '3'
+services:
+  metabase:
+    image: metabase/metabase
+    volumes:
+      - .metabase:/metabase-data
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_HOST=db
+      - MB_DB_PORT=5432
+      - MB_DB_DBNAME=metabase
+      - MB_DB_USER=postgres
+      - MB_DB_PASS=secret
+      - MB_JETTY_PORT=3300
+    ports:
+      - 3300:3300
+    depends_on:
+      - db
+    networks:
+      - my-network

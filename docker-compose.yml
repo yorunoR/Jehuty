@@ -9,6 +9,7 @@ services:
       - ./db/init:/docker-entrypoint-initdb.d
       - ./db/scripts:/scripts
     environment:
+      POSTGRES_DB: metabase
       POSTGRES_PASSWORD: secret
     tty: true
     stdin_open: true
