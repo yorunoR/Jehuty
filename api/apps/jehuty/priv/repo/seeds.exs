@@ -11,4 +11,5 @@
 # and so on) as they will fail if something goes wrong.
 alias Jehuty.Admin
 
-Admin.register_admin_user(%{email: "sss.yoshioka@gmail.com", password: "123456123456"})
+email = System.get_env("ADMIN_USER_EMAIL")
+Admin.register_admin_user(%{email: email, password: "123456123456"})
