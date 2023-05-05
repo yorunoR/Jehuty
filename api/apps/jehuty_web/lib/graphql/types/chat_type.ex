@@ -20,7 +20,7 @@ defmodule Graphql.Types.ChatType do
       resolve(&ChatResolver.call(:parse_html, &1, &2, &3))
     end
 
-    field(:save_document, non_null(:status)) do
+    field(:save_document, non_null(:story)) do
       arg(:url, non_null(:string))
       arg(:document, non_null(:string))
       resolve(&ChatResolver.call(:save_document, &1, &2, &3))
