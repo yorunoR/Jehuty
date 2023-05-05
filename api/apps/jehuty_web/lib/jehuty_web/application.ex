@@ -11,9 +11,10 @@ defmodule JehutyWeb.Application do
       # Start the Telemetry supervisor
       JehutyWeb.Telemetry,
       # Start the Endpoint (http/https)
-      JehutyWeb.Endpoint
+      JehutyWeb.Endpoint,
       # Start a worker by calling: JehutyWeb.Worker.start_link(arg)
       # {JehutyWeb.Worker, arg}
+      {Absinthe.Subscription, JehutyWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
