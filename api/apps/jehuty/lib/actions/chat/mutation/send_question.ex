@@ -1,37 +1,32 @@
 defmodule Actions.Chat.Mutation.SendQuestion do
+  import Ecto.Query
+  import Pgvector.Ecto.Query
+
   alias ExlChain.LLM
   alias ExlChain.LLM.OpenAI
-  alias ExlChain.Index
-  alias ExlChain.Index.Pinecone
   alias ExlChain.Template
   alias ExlChain.Chain
   alias Jehuty.Repo
   alias Schemas.Chat.Chunk
 
   def run(_parent, args, context) do
-    %{current_user: current_user} = context
+    %{current_user: user} = context
     %{question: question} = args
 
     llm = OpenAI.new("text-embedding-ada-002")
-    index = Pinecone.new(Application.get_env(:jehuty, :index_name))
-
     vector = LLM.call(llm, :embeddings, question)
 
-    json = %{
-      namespace: current_user.uid,
-      includeValues: false,
-      includeMetadata: true,
-      topK: 10,
-      vector: vector
-    }
+    query =
+      from(c in Chunk,
+        where: is_nil(c.story_id) and c.user_id == ^user.id,
+        order_by: cosine_distance(c.embedding, ^vector),
+        limit: 10
+      )
 
     memories =
-      Index.call(index, :query, json)
-      |> Enum.map(fn vector ->
-        Map.get(vector, "metadata", %{}) |> Map.get("chunk_id") |> String.to_integer()
-      end)
-      |> Enum.map(fn id ->
-        chunk = Repo.get(Chunk, id)
+      query
+      |> Repo.all()
+      |> Enum.map(fn chunk ->
         chunk.value |> IO.inspect()
       end)
       |> Enum.join("\n")

@@ -3,8 +3,6 @@ defmodule Actions.Chat.Mutation.SaveDocument do
 
   alias ExlChain.LLM
   alias ExlChain.LLM.OpenAI
-  alias ExlChain.Index
-  alias ExlChain.Index.Pinecone
   alias Jehuty.Repo
   alias Poems.Scraper
   alias Poems.TextSplitter
@@ -26,10 +24,7 @@ defmodule Actions.Chat.Mutation.SaveDocument do
       }
       |> Repo.insert!()
 
-    namespace = to_string(story.id)
-
     llm = OpenAI.new("text-embedding-ada-002")
-    index = Pinecone.new(Application.get_env(:jehuty, :index_name))
 
     document
     |> TextSplitter.split_text(@chunk_size)
@@ -39,27 +34,15 @@ defmodule Actions.Chat.Mutation.SaveDocument do
       :timer.sleep(200)
 
       values = LLM.call(llm, :embeddings, chunk)
-      vector_id = "#{namespace}__#{to_string(i)}"
 
-      %{id: id} =
-        story
-        |> Ecto.build_assoc(:chunks, %{
-          vector_id: vector_id,
-          value: chunk,
-          length: String.length(chunk)
-        })
-        |> Repo.insert!()
-
-      json = %{
-        vectors: %{
-          id: vector_id,
-          values: values,
-          metadata: %{chunk_id: to_string(id)}
-        },
-        namespace: namespace
-      }
-
-      Index.call(index, :upsert, json)
+      story
+      |> Ecto.build_assoc(:chunks, %{
+        value: chunk,
+        length: String.length(chunk),
+        embedding: values,
+        page: i
+      })
+      |> Repo.insert!()
     end)
 
     story
