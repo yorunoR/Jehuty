@@ -11,6 +11,8 @@ defmodule Schemas.Chat.Chunk do
     field :vector_id, :string
     field :value, :string
     field :length, :integer
+    field :embedding, Pgvector.Ecto.Vector
+    field :page, :integer
 
     timestamps()
   end
