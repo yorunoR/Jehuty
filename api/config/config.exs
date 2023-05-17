@@ -9,7 +9,9 @@
 # move said applications out of the umbrella.
 import Config
 
-config :jehuty, Jehuty.Repo, migration_timestamps: [type: :utc_datetime_usec]
+config :jehuty, Jehuty.Repo,
+  types: Jehuty.PostgrexTypes,
+  migration_timestamps: [type: :utc_datetime_usec]
 
 # Configure Mix tasks and generators
 config :jehuty,

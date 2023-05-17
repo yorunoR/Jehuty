@@ -1,10 +1,9 @@
 defmodule Actions.Chat.Mutation.SearchDocument do
   import Ecto.Query
+  import Pgvector.Ecto.Query
 
   alias ExlChain.LLM
   alias ExlChain.LLM.OpenAI
-  alias ExlChain.Index
-  alias ExlChain.Index.Pinecone
   alias ExlChain.Template
   alias ExlChain.Chain
   alias Jehuty.Repo
@@ -20,25 +19,31 @@ defmodule Actions.Chat.Mutation.SearchDocument do
     story = Repo.get_by!(Story, id: id, user_id: user.id)
 
     llm = OpenAI.new("text-embedding-ada-002")
-    index = Pinecone.new(Application.get_env(:jehuty, :index_name))
-
     vector = LLM.call(llm, :embeddings, question)
     input_count = div(@input_limit, story.chunk_size)
-
-    json = %{
-      namespace: to_string(story.id),
-      includeValues: false,
-      includeMetadata: true,
-      topK: (input_count * 2.2) |> floor,
-      vector: vector
-    }
 
     total_page_count =
       from(c in Chunk, where: c.story_id == ^story.id)
       |> Repo.aggregate(:count, :id)
 
+    limit = (input_count * 2.2) |> floor
+
+    query =
+      from(c in Chunk,
+        where: c.story_id == ^story.id,
+        select: %{
+          id: c.id,
+          page: c.page,
+          value: c.value,
+          distance: selected_as(cosine_distance(c.embedding, ^vector), :distance)
+        },
+        order_by: selected_as(:distance),
+        limit: ^limit
+      )
+
     memories =
-      Index.call(index, :query, json)
+      query
+      |> Repo.all()
       |> Enum.sort(fn x, y ->
         x_score = adjust_score(x, total_page_count)
         y_score = adjust_score(y, total_page_count)
@@ -49,11 +54,8 @@ defmodule Actions.Chat.Mutation.SearchDocument do
         IO.inspect(vector)
         i < input_count
       end)
-      |> Enum.map(fn {vector, _i} ->
-        Map.get(vector, "metadata", %{}) |> Map.get("chunk_id") |> String.to_integer()
-      end)
-      |> Enum.map(fn id ->
-        Repo.get(Chunk, id)
+      |> Enum.map(fn {chunk, _i} ->
+        chunk
       end)
       |> Enum.sort(fn x, y ->
         x.id < y.id
@@ -96,10 +98,10 @@ defmodule Actions.Chat.Mutation.SearchDocument do
      }}
   end
 
-  defp adjust_score(vector, total_page_count) do
-    score = Map.get(vector, "score")
-    [_, page_number] = Map.get(vector, "id") |> String.split("__")
-    adjusted_value = 0.008 * Float.pow(0.94, total_page_count - String.to_integer(page_number))
+  defp adjust_score(chunk, total_page_count) do
+    score = 1 - Map.get(chunk, :distance)
+    page_number = Map.get(chunk, :page)
+    adjusted_value = 0.008 * Float.pow(0.94, total_page_count - page_number)
     score + adjusted_value
   end
 end

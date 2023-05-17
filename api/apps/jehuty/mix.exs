@@ -45,7 +45,9 @@ defmodule Jehuty.MixProject do
       {:finch, "~> 0.13"},
       {:ecto_soft_delete, "~> 2.0"},
       {:exl_chain, git: "https://github.com/yorunoR/exl_chain.git", branch: "main"},
-      {:hound, "~> 1.0"}
+      {:hound, "~> 1.0"},
+      {:floki, ">= 0.30.0"},
+      {:pgvector, "~> 0.1.0"}
     ]
   end
 
@@ -55,9 +57,9 @@ defmodule Jehuty.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.rollback --all", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.migrate --quiet", "test"]
     ]
   end
 end
